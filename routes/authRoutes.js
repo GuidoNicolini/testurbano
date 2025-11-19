@@ -19,11 +19,18 @@ router.post('/login', (req, res, next) => {
       }
       const token = jwt.sign({ id: user._id, rol: user.rol }, process.env.JWT_SECRET || 'your_default_secret', { expiresIn: '1h' });
       
-      // En lugar de redirigir, podrías querer enviar el token al cliente
-      // y que el cliente lo guarde (por ejemplo, en localStorage)
-      // Para mantener la compatibilidad con tu sistema de plantillas, vamos a guardar el token en una cookie.
       res.cookie('jwt', token, { httpOnly: true, secure: false }); // secure: true en producción
-      return res.redirect('/inicio');
+      
+      switch (user.rol) {
+        case 'Admin':
+          return res.redirect('/informe');
+        case 'Caja':
+          return res.redirect('/pagos');
+        case 'Cocina':
+          return res.redirect('/pedidos');
+        default:
+          return res.redirect('/inicio');
+      }
     });
   })(req, res, next);
 });
