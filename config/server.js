@@ -15,8 +15,6 @@ const clientesRoutes = require('../routes/clientesRoutes');
 const { fileURLToPath } = require('url');
 const methodOverride = require('method-override');
 
-const PORT = process.env.PORT || 3000;
-
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '../views'));
 app.use(express.static('public'));
@@ -64,7 +62,4 @@ app.get('/inicio', (req, res) => {
   });
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+module.exports = app;
